@@ -7,4 +7,11 @@
     <string name="all_lists_title">All Stored Lists</string>
     <string name="striked_through">StrikedThrough</string>
     <string name="not_striked_through">NotStrikedThrough</string>
+    <string name="spinner_prompt">Choose a list</string>
+
+    <string-array name="months">
+        <item>Jan</item>
+        <item>feb</item>
+        <item>mar</item>
+    </string-array>
 </resources>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pale"
+    android:padding="15dp"
+    tools:context=".AddActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_activity_title_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blue"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="13dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title : "
+            android:textColor="@color/deeper_white_alt"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="10dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_activity_title_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/deeper_white_alt"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="13dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintStart_toEndOf="@id/add_activity_title_txt"
+        app:layout_constraintTop_toTopOf="@id/add_activity_title_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/add_activity_title_txt"
+        >
+
+        <EditText
+            android:id="@+id/add_actitivty_title_ev"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your new list's title here "
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="15dp"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/radiocard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blue"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="13dp"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintStart_toStartOf="@id/add_activity_title_txt"
+        app:layout_constraintTop_toBottomOf="@id/add_activity_title_txt"
+        app:layout_constraintEnd_toEndOf="@id/add_activity_title_input"
+        >
+
+        <TextView
+            android:id="@+id/radiotxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp"
+            android:text="Keep items from : "
+            android:textColor="@color/deeper_white_alt"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="@id/radiocard"
+        app:layout_constraintTop_toTopOf="@id/radiocard"
+        app:layout_constraintBottom_toBottomOf="@id/radiocard"
+        >
+
+        <RadioButton
+            android:id="@+id/radio0"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="15dp" />
+
+
+
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:elevation="12dp"
+        android:layout_marginTop="-20dp"
+        app:layout_constraintBottom_toBottomOf="@id/radiocard"
+        app:layout_constraintEnd_toEndOf="@id/radioGroup1"
+        app:layout_constraintStart_toStartOf="@id/radioGroup1">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Active"
+            android:textColor="@color/deeper_white_alt"
+            android:layout_weight="1"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="All"
+            android:textColor="@color/deeper_white_alt"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="None"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/deeper_white_alt"
+            android:textSize="14dp"/>
+
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/my_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white_alt"
+        android:prompt="@string/spinner_prompt"
+        android:popupBackground="@color/white_alt"
+        android:spinnerMode="dropdown"
+        android:elevation="1dp"
+        android:layout_marginVertical="15dp"
+        app:layout_constraintTop_toBottomOf="@id/radiocard"
+        app:layout_constraintEnd_toEndOf="@id/radiocard"
+        app:layout_constraintStart_toStartOf="@id/radiocard" />
+
+    <ImageView
+        android:id="@+id/add_activity_spinner_arrow"
+        android:layout_width="0dp"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chevron_arrow"
+        app:layout_constraintEnd_toEndOf="@id/my_spinner"
+        app:layout_constraintTop_toTopOf="@id/my_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/my_spinner"
+        android:layout_marginRight="10dp"
+        android:scaleY="1.25"
+        android:scaleX="1.25"
+        android:rotation="180"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_rv_card"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:visibility="gone"
+        app:cardElevation="5dp"
+        app:cardBackgroundColor="@color/deeper_white_alt"
+        app:cardCornerRadius="15dp"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@id/add_activity_title_txt"
+        app:layout_constraintEnd_toEndOf="@id/add_activity_title_input"
+        app:layout_constraintTop_toBottomOf="@id/my_spinner">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/addRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/add_activity_seperator"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="21dp"
+        android:elevation="1dp"
+        android:background="@color/blue"
+        android:layout_marginHorizontal="15dp"
+        app:layout_constraintStart_toStartOf="@id/add_rv_card"
+        app:layout_constraintEnd_toEndOf="@id/add_rv_card"
+        app:layout_constraintTop_toBottomOf="@id/add_rv_card"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_item_input_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blue"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="13dp"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintStart_toStartOf="@id/add_activity_seperator"
+        app:layout_constraintTop_toBottomOf="@id/add_activity_seperator"
+        app:layout_constraintEnd_toEndOf="@id/add_activity_seperator"
+        >
+
+        <TextView
+            android:id="@+id/add_item_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp"
+            android:text="List out your new items here "
+            android:textColor="@color/deeper_white_alt"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_item_input_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:scrollIndicators="right"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        android:scrollbars="vertical"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_activity_content_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:scrollIndicators="right"
+            android:scrollbars="vertical"
+            android:layout_gravity="top"
+            android:maxLines="7"
+            android:gravity="top"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

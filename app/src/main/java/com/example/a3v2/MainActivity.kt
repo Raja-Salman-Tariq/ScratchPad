@@ -1,5 +1,6 @@
 package com.example.a3v2
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
@@ -72,7 +73,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "working !", Toast.LENGTH_SHORT).show()
             Log.d("abc", "handleAddBtn: ")
             if (focus == focus_home_lists) {
-                myViewModel.insertList(ToDoList(0, true, "Another one !", "null", false))
+//                myViewModel.insertList(ToDoList(0, true, "Another one !", "null", false))
+                startActivity(Intent(this, AddActivity::class.java))
             }
         }
     }

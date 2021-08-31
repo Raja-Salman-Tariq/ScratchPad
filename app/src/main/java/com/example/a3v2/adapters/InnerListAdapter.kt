@@ -14,7 +14,7 @@ import com.example.a3v2.R
 import com.example.a3v2.BaseFragment
 import com.example.a3v2.db.ListItem
 
-class InnerListAdapter(private val fragment: BaseFragment, private val ctxt : Context, private var data:MutableList<ListItem>)
+class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : Context, private var data:MutableList<ListItem>)
     :    RecyclerView.Adapter<InnerListAdapter.MyViewHolder>(){
 
     class MyViewHolder(view :   View,
@@ -70,6 +70,9 @@ class InnerListAdapter(private val fragment: BaseFragment, private val ctxt : Co
     }
 
     private fun setListeners(holder: MyViewHolder, item: ListItem){
+        if (fragment == null)
+            return
+
         holder.cardView.setOnClickListener(View.OnClickListener {
 
             if (holder.itemTxt.tag.equals(ctxt.resources.getString(R.string.not_striked_through))) {    // clicked to strike through
@@ -89,7 +92,7 @@ class InnerListAdapter(private val fragment: BaseFragment, private val ctxt : Co
                 holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
                 item.strikedOut =   false
             }
-            fragment.myViewModel.updItem(item)
+            fragment?.myViewModel?.updItem(item)
         })
 
 
