@@ -8,21 +8,21 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a3v2.adapters.OuterListAdapter
-import com.example.a3v2.databinding.ActivityOuterListBinding
+import com.example.a3v2.databinding.FragmentHomeBinding
+import com.example.a3v2.db.MyViewModel
+import com.example.a3v2.db.ToDoList
 
-class HomeFragment : Fragment() {
+class HomeFragment(private val myViewModel: MyViewModel) : Fragment() {
 
     /*###############################################
     * -----        P R O P E R T I E S         -----*
     * =============================================*/
-    private lateinit var binding        :   ActivityOuterListBinding
+    private lateinit var binding        :   FragmentHomeBinding
 
     private lateinit var recyclerView   :   RecyclerView
     private lateinit var data           :   MutableList<ToDoList>
-    private lateinit var ada            :   OuterListAdapter
+    private lateinit var adapter        :   OuterListAdapter
     //-----------------------------------------------
-
-
 
 
 
@@ -35,19 +35,17 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.fragment_home, container, false)
-        binding= ActivityOuterListBinding.inflate(layoutInflater)
+        binding= FragmentHomeBinding.inflate(layoutInflater)
 
-        handleRv()
-
-//        drinkViewModel.mAllDrinks?.observe(viewLifecycleOwner
-//        ) { drinks -> // Update the cached copy of the words in the adapter. Observe live data
-//            ada.setDrinksData(drinks)
-//        }
         return view
     }
     //-----------------------------------------------
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        handleRv()
+    }
 
 
 
@@ -55,20 +53,18 @@ class HomeFragment : Fragment() {
     * -----   c o n v e n i e n c e   f u n    -----*
     * =============================================*/
     private fun handleRv() {
-        recyclerView    =   binding.fragmentHomeAllListsRv
+        recyclerView    = view?.findViewById(R.id.fragment_home_all_lists_rv)!!
+//        recyclerView    =   binding.fragmentHomeAllListsRv
 
         data = mutableListOf()
-        data.add(ToDoList(0,false, "first list", null))
-        data.add(ToDoList(1,false, "second list", null))
-        data.add(ToDoList(2,false, "third list", null))
-        data.add(ToDoList(3,true, "fourth list", null))
-        data.add(ToDoList(4,false, "fifth list", null))
-
 
         recyclerView.layoutManager  =   LinearLayoutManager(context)
-        (context?.let { OuterListAdapter(it, data) })?.let { ada    =   it }
-        recyclerView.adapter        =   ada
+        adapter =   OuterListAdapter(requireContext(), this, data, myViewModel)
+        recyclerView.adapter        =   adapter
 
+        myViewModel.allLists.observe(viewLifecycleOwner){
+                lists   ->  adapter.setData(lists)
+        }
     }
     //-----------------------------------------------
 }
