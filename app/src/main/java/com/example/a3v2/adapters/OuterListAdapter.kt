@@ -26,14 +26,14 @@ class OuterListAdapter(private val ctxt : Context,
     class MyViewHolder(view :   View,
                        ctxt: Context,
                        fragment: HomeFragment,
-                       myViewModel: MyViewModel,
                        val chevron          :   ImageView           =   view.findViewById(R.id.rv_list_chevron),
                        val listHead         :   CardView            =   view.findViewById(R.id.rv_list_header),
+                       val headerStrikeOut  :   ImageView           =   view.findViewById(R.id.rv_outerlist_item_strikethrough),
                        val listTitle        :   TextView            =   view.findViewById(R.id.rv_list_header_title),
                        val items            :   ConstraintLayout    =   view.findViewById(R.id.rv_list_items_expansion),
                        private val innerList        :   RecyclerView        =   view.findViewById(R.id.rv_list_items),
                        private val innerListData    :   MutableList<ListItem>   =   mutableListOf(),
-                       private val adapter          :   InnerListAdapter        =   InnerListAdapter(ctxt, innerListData)
+                       val adapter          :   InnerListAdapter        =   InnerListAdapter(fragment, ctxt, innerListData)
     )   :   RecyclerView.ViewHolder(view){
         init {
 
@@ -41,10 +41,7 @@ class OuterListAdapter(private val ctxt : Context,
             innerList.adapter       =   adapter
             chevron.rotation        =   180f
             items.visibility        =   View.GONE
-
-            myViewModel.allItems.observe(fragment.viewLifecycleOwner){
-                    items   ->  adapter.setData(items)
-            }
+            headerStrikeOut.visibility  =   View.GONE
         }
     }
 
@@ -53,7 +50,6 @@ class OuterListAdapter(private val ctxt : Context,
             LayoutInflater.from(parent.context).inflate(R.layout.outerlist_layout, parent, false),
             ctxt,
             fragment,
-            myViewModel
         )
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -82,6 +78,10 @@ class OuterListAdapter(private val ctxt : Context,
                 View.INVISIBLE ->   {}
             }
         }
+
+        myViewModel.allItems.observe(fragment.viewLifecycleOwner){
+                items   ->  observe(holder, items, toDoList.listId)
+        }
     }
 
     override fun getItemCount() =   data.size
@@ -91,5 +91,20 @@ class OuterListAdapter(private val ctxt : Context,
             notifyDataSetChanged()
     }
 
-
+    private fun observe(holder:MyViewHolder, items: List<ListItem>, listId:Int){
+        val listIsPending   =   holder.adapter.setData(items, listId )
+        if (!listIsPending){
+            holder.headerStrikeOut.visibility   =   View.VISIBLE
+            val params      = holder.headerStrikeOut.layoutParams
+            params.width    = holder.listTitle.width
+            holder.headerStrikeOut.layoutParams =   params
+//            holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
+            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
+        }
+        else{
+            holder.headerStrikeOut.visibility   =   View.INVISIBLE
+//            holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
+            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
+        }
+    }
 }

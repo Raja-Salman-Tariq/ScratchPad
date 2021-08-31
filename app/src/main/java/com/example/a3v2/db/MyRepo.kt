@@ -1,10 +1,7 @@
 package com.example.a3v2.db
 
-import android.app.Application
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.GlobalScope
 
 
 class MyRepo(
@@ -31,15 +28,22 @@ class MyRepo(
         itemDao.insertAll(item)
     }
 
-    fun getItems(listId :   Int):   LiveData<List<ListItem>> {
-        val items   =   mutableListOf<ListItem>()
-        for (item:ListItem  in allItems.value!!){
-            if (item.listId == listId)
-                items.add(item)
-        }
-
-        val toRet   =   MutableLiveData<List<ListItem>>()
-        toRet.value=items
-        return toRet
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateItem(item :   ListItem) {
+        itemDao.upd(item)
     }
+
+
+//    fun getItems(listId :   Int):   LiveData<List<ListItem>> {
+//        val items   =   mutableListOf<ListItem>()
+//        for (item:ListItem  in allItems.value!!){
+//            if (item.listId == listId)
+//                items.add(item)
+//        }
+//
+//        val toRet   =   MutableLiveData<List<ListItem>>()
+//        toRet.value=items
+//        return toRet
+//    }
 }

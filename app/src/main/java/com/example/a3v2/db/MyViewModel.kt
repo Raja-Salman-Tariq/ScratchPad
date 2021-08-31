@@ -1,7 +1,9 @@
 package com.example.a3v2.db
 
-import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -16,8 +18,12 @@ class MyViewModel(private val repository: MyRepo/*application: Application?*/) :
         repository.insertList(list)
     }
 
-    fun insertItem(item: ListItem) = viewModelScope.launch {
+    fun insertItem(item: ListItem) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertItem(item)
+    }
+
+    fun updItem(item: ListItem) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateItem(item)
     }
 }
 

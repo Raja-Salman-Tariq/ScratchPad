@@ -12,7 +12,7 @@ import com.example.a3v2.databinding.FragmentHomeBinding
 import com.example.a3v2.db.MyViewModel
 import com.example.a3v2.db.ToDoList
 
-class HomeFragment(private val myViewModel: MyViewModel) : Fragment() {
+class HomeFragment(val myViewModel: MyViewModel) : Fragment() {
 
     /*###############################################
     * -----        P R O P E R T I E S         -----*
