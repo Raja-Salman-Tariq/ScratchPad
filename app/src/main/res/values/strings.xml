@@ -3,6 +3,8 @@
     <string name="active_lists">Active Lists</string>
     <string name="home">Home</string>
     <string name="all_lists">All Lists</string>
+    <string name="home_title">Home - Active Lists</string>
+    <string name="all_lists_title">All Stored Lists</string>
     <string name="striked_through">StrikedThrough</string>
     <string name="not_striked_through">NotStrikedThrough</string>
 </resources>

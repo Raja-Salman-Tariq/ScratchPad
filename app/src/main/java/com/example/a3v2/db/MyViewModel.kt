@@ -10,8 +10,9 @@ import kotlinx.coroutines.launch
 
 class MyViewModel(private val repository: MyRepo/*application: Application?*/) : /*Android*/ViewModel(/*application!!*/) {
 //    private val repository: MyRepo = MyRepo(application)
-    val allItems    :   LiveData<List<ListItem>>    =   repository.allItems
-    val allLists    :   LiveData<List<ToDoList>>    =   repository.allLists
+    val allItems        :   LiveData<List<ListItem>>    =   repository.allItems
+    val allLists        :   LiveData<List<ToDoList>>    =   repository.allLists
+    val allActiveLists  :   LiveData<List<ToDoList>>    =   repository.allActiveLists
 
 
     fun insertList(list: ToDoList) = viewModelScope.launch(Dispatchers.IO) {

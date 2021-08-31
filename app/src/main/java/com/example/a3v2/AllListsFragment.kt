@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a3v2.adapters.OuterListAdapter
-import com.example.a3v2.databinding.FragmentHomeBinding
+import com.example.a3v2.databinding.FragmentAllListsBinding
 import com.example.a3v2.db.MyViewModel
 import com.example.a3v2.db.ToDoList
 
-class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
+class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
 
     /*###############################################
     * -----        P R O P E R T I E S         -----*
     * =============================================*/
-    private lateinit var binding        :   FragmentHomeBinding
+    private lateinit var binding        :   FragmentAllListsBinding
     //-----------------------------------------------
 
 
@@ -27,8 +27,8 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.fragment_home, container, false)
-        binding= FragmentHomeBinding.inflate(layoutInflater)
+        val view=inflater.inflate(R.layout.fragment_all_lists, container, false)
+        binding= FragmentAllListsBinding.inflate(layoutInflater)
 
         return view
     }
@@ -46,8 +46,8 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
     * -----   c o n v e n i e n c e   f u n    -----*
     * =============================================*/
     private fun handleRv() {
-        emptyTxt        =   view?.findViewById(R.id.fragment_home_empty_txt)!!
-        recyclerView    = view?.findViewById(R.id.fragment_home_all_lists_rv)!!
+        emptyTxt        =   view?.findViewById(R.id.fragment_all_lists_empty_txt)!!
+        recyclerView    =   view?.findViewById(R.id.fragment_all_lists_rv)!!
 //        recyclerView    =   binding.fragmentHomeAllListsRv
 
         data = mutableListOf()
@@ -56,12 +56,12 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
         adapter =   OuterListAdapter(requireContext(), this, data, myViewModel)
         recyclerView.adapter        =   adapter
 
-        myViewModel.allActiveLists.observe(viewLifecycleOwner){
-                lists   ->  observeHomeFragmentData(lists)
+        myViewModel.allLists.observe(viewLifecycleOwner){
+                lists   ->  observeAllListsFragmentData(lists)
         }
     }
     //-----------------------------------------------
-    private fun observeHomeFragmentData(lists   : List<ToDoList>){
+    private fun observeAllListsFragmentData(lists   : List<ToDoList>){
         if (lists.isEmpty()){
             emptyTxt.visibility =   View.VISIBLE
         }

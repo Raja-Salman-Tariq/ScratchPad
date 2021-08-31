@@ -10,11 +10,11 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a3v2.HomeFragment
 import com.example.a3v2.R
+import com.example.a3v2.BaseFragment
 import com.example.a3v2.db.ListItem
 
-class InnerListAdapter(private val fragment: HomeFragment, private val ctxt : Context, private var data:MutableList<ListItem>)
+class InnerListAdapter(private val fragment: BaseFragment, private val ctxt : Context, private var data:MutableList<ListItem>)
     :    RecyclerView.Adapter<InnerListAdapter.MyViewHolder>(){
 
     class MyViewHolder(view :   View,

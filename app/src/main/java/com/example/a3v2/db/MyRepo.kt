@@ -14,6 +14,7 @@ class MyRepo(
 
     val allLists: LiveData<List<ToDoList>> = toDoListDao.getAll()
     val allItems: LiveData<List<ListItem>> = itemDao.getAll()
+    val allActiveLists: LiveData<List<ToDoList>> = toDoListDao.getAllActive()
 
 
     @Suppress("RedundantSuspendModifier")

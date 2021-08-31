@@ -10,6 +10,9 @@ interface ToDoListDao {
     @Query("SELECT * FROM ToDoList")
     fun getAll(): LiveData<List<ToDoList>>
 
+    @Query("SELECT * FROM ToDoList WHERE active = 1")
+    fun getAllActive(): LiveData<List<ToDoList>>
+
 //    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
 //    fun loadAllByIds(userIds: IntArray): List<User>
 

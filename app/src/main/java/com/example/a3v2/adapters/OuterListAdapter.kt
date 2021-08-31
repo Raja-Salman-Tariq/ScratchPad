@@ -11,21 +11,21 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a3v2.HomeFragment
 import com.example.a3v2.R
+import com.example.a3v2.BaseFragment
 import com.example.a3v2.db.ListItem
 import com.example.a3v2.db.MyViewModel
 import com.example.a3v2.db.ToDoList
 
 class OuterListAdapter(private val ctxt : Context,
-                       private val fragment: HomeFragment,
+                       private val fragment: BaseFragment,
                        private var data:MutableList<ToDoList>,
                        private val myViewModel: MyViewModel )
     :    RecyclerView.Adapter<OuterListAdapter.MyViewHolder>(){
 
     class MyViewHolder(view :   View,
                        ctxt: Context,
-                       fragment: HomeFragment,
+                       fragment: BaseFragment,
                        val chevron          :   ImageView           =   view.findViewById(R.id.rv_list_chevron),
                        val listHead         :   CardView            =   view.findViewById(R.id.rv_list_header),
                        val headerStrikeOut  :   ImageView           =   view.findViewById(R.id.rv_outerlist_item_strikethrough),
@@ -33,7 +33,7 @@ class OuterListAdapter(private val ctxt : Context,
                        val items            :   ConstraintLayout    =   view.findViewById(R.id.rv_list_items_expansion),
                        private val innerList        :   RecyclerView        =   view.findViewById(R.id.rv_list_items),
                        private val innerListData    :   MutableList<ListItem>   =   mutableListOf(),
-                       val adapter          :   InnerListAdapter        =   InnerListAdapter(fragment, ctxt, innerListData)
+                       val adapter          :   InnerListAdapter        =   InnerListAdapter(fragment, ctxt, innerListData),
     )   :   RecyclerView.ViewHolder(view){
         init {
 

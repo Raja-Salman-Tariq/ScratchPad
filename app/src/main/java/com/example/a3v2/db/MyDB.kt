@@ -55,29 +55,29 @@ abstract class MyDB : RoomDatabase() {
             itemDao.deleteAll()
 
 
-            val first = ToDoList(0, true, "first list !", "")
-            val second = ToDoList(0, false, "second list !", "")
-            val third = ToDoList(0, true, "last list !", "")
+            val first = ToDoList(0, true, "first list !", "", true)
+            val second = ToDoList(0, false, "second list !", "", false)
+            val third = ToDoList(0, true, "last list !", "", false)
 
             Log.d("inserted", "populateDatabase: ")
             listDao.insertAll(first, second, third)
 
 
-            var _0  =   ListItem(0, 1, "Grocery", false)
-            var _1  =   ListItem(0, 1,"Eggs", true)
-            var _2  =   ListItem(0, 1, "Tomatos", false)
-            var _3  =   ListItem(0, 1, "Saag", true)
+            var v0  =   ListItem(0, 1, "Grocery", false)
+            var v1  =   ListItem(0, 1,"Eggs", true)
+            var v2  =   ListItem(0, 1, "Tomatos", false)
+            var v3  =   ListItem(0, 1, "Saag", true)
 
-            itemDao.insertAll(_0,_1,_2,_3)
+            itemDao.insertAll(v0,v1,v2,v3)
 
-            _1  =   ListItem(0, 3,"Eggs", false)
-            _2  =   ListItem(0, 3, "Tomatos", false)
-            _3  =   ListItem(0, 3, "Saag", true)
-            itemDao.insertAll(_1,_2,_3)
+            v1  =   ListItem(0, 3,"Eggs", false)
+            v2  =   ListItem(0, 3, "Tomatos", false)
+            v3  =   ListItem(0, 3, "Saag", true)
+            itemDao.insertAll(v1,v2,v3)
 
 
-            _0  =   ListItem(0, 2, "Grocery", true)
-            itemDao.insertAll(_0)
+            v0  =   ListItem(0, 2, "Grocery", true)
+            itemDao.insertAll(v0)
 
             // Add sample words.
 //            var word = Word("Hello")
