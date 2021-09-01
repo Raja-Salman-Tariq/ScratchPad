@@ -33,14 +33,14 @@ class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_all_lists, container, false)
         binding= FragmentAllListsBinding.inflate(layoutInflater)
-
         return view
     }
     //-----------------------------------------------
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//        (activity as MainActivity).myTitle.text         =   resources.getString(R.string.all_lists_title)
+//        (activity as MainActivity).addBtn.visibility    =   View.INVISIBLE
         handleRv()
     }
 
@@ -60,7 +60,7 @@ class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
         adapter =   OuterListAdapter(requireContext(), this, data, myViewModel)
         recyclerView.adapter        =   adapter
 
-        myViewModel.allLists.observe(viewLifecycleOwner){
+        myViewModel.allLists.observe(this.viewLifecycleOwner){
                 lists   ->  observeAllListsFragmentData(lists)
         }
 
@@ -97,6 +97,9 @@ class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
     }
     //-----------------------------------------------
     private fun observeAllListsFragmentData(lists   : List<ToDoList>){
+
+        Log.d("observed", "observeAllListsFragmentData: ")
+
         if (lists.isEmpty()){
             emptyTxt.visibility =   View.VISIBLE
         }

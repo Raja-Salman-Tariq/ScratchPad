@@ -91,7 +91,8 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
 
     fun setData(items   :   List<ListItem>, listId  :   Int): Boolean {
         if (fragment==null)
-        Log.d("xyz", "setData: ${items.size}\n$items")
+            Log.d("xyz", "setData: ${items.size}\n$items")
+
         data.clear()
 
         var listIsPending   =   false
@@ -103,12 +104,19 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
                     listIsPending   =   true
             }
 
+        data.sortWith(compareBy<ListItem>{it.strikedOut}.thenBy { it.timestamp })
+
         notifyDataSetChanged()
         return listIsPending
     }
 
     private fun setListeners(holder: MyViewHolder, item: ListItem){
         holder.cardView.setOnClickListener(View.OnClickListener {
+
+            var wasPending = false
+            for (item   : ListItem  in  data)
+                if (!item.strikedOut)
+                    wasPending = true
 
             if (holder.itemTxt.tag.equals(ctxt.resources.getString(R.string.not_striked_through))) {    // clicked to strike through
                 holder.itemTxt.tag=ctxt.resources.getString(R.string.striked_through)
@@ -128,9 +136,20 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
                 item.strikedOut =   false
             }
             fragment?.myViewModel?.updItem(item)
+
+            var listIsPending   =   0
+
+            for (item   : ListItem  in  data)
+                if (!item.strikedOut)
+                    listIsPending++
+
+//            if (!listIsPending) {
+//                fragment?.myViewModel?.updListState(data[0].listId, listIsPending>0)
+//            }
+
+            if (wasPending!= (listIsPending>0))
+                fragment?.myViewModel?.updListState(data[0].listId, listIsPending>0)
         })
-
-
     }
 
 
