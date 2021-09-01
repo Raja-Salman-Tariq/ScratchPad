@@ -10,6 +10,6 @@ import com.example.a3v2.db.ToDoList
 open class BaseFragment(internal val myViewModel: MyViewModel)  :   Fragment() {
     protected lateinit var recyclerView     :   RecyclerView
     protected lateinit var data             :   MutableList<ToDoList>
-    protected lateinit var adapter          :   OuterListAdapter
+              lateinit var adapter          :   OuterListAdapter
     protected lateinit var emptyTxt         :   TextView
 }

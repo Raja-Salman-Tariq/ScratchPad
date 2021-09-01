@@ -17,6 +17,8 @@ import com.example.a3v2.db.ListItem
 class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : Context, private var data:MutableList<ListItem>)
     :    RecyclerView.Adapter<InnerListAdapter.MyViewHolder>(){
 
+    val selectedItems   =   mutableSetOf<ListItem>()
+
     class MyViewHolder(view :   View,
                        val itemTxt  :   TextView    =   view.findViewById(R.id.rv_innerlist_item),
                        val cardView :   CardView    =   view.findViewById(R.id.rv_innerlist_item_card),
@@ -28,9 +30,44 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
             .inflate(R.layout.innerlist_layout, parent, false))
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
         val listItem            =   data[position]
         holder.itemTxt.text     =   listItem.text
+
+
+        if (fragment==null){ //  frag null means this is second usage of adapter in the add button activity
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
+            holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
+            holder.strikeOut.visibility=View.INVISIBLE
+            holder.cardView.setOnClickListener(object:View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    val item    :   ListItem    =   data[holder.adapterPosition]
+                    if (selectedItems.contains(item)){
+                        holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
+                        holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
+                        selectedItems.remove(item)
+                    }
+
+                    else {
+                        selectedItems.add(item)
+                        holder.cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                ctxt,
+                                R.color.blue
+                            )
+                        )
+                        holder.itemTxt.setTextColor(
+                            ContextCompat.getColor(
+                                ctxt,
+                                R.color.deeper_white_alt
+                            )
+                        )
+                    }
+                }
+
+            })
+            return
+        }
+
         if (listItem.strikedOut){
             holder.itemTxt.tag  =   ctxt.resources.getString(R.string.striked_through)
             holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.red))
@@ -53,7 +90,8 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
     override fun getItemCount() =   data.size
 
     fun setData(items   :   List<ListItem>, listId  :   Int): Boolean {
-        Log.d("xyz", "setData: $items")
+        if (fragment==null)
+        Log.d("xyz", "setData: ${items.size}\n$items")
         data.clear()
 
         var listIsPending   =   false
@@ -70,9 +108,6 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
     }
 
     private fun setListeners(holder: MyViewHolder, item: ListItem){
-        if (fragment == null)
-            return
-
         holder.cardView.setOnClickListener(View.OnClickListener {
 
             if (holder.itemTxt.tag.equals(ctxt.resources.getString(R.string.not_striked_through))) {    // clicked to strike through

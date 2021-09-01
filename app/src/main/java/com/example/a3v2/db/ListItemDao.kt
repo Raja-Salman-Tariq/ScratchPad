@@ -27,4 +27,10 @@ interface ListItemDao {
 
     @Query("DELETE FROM ListItem")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM ListItem WHERE listId = :id")
+    suspend fun deleteById(id: Int)
+
+    @Query("UPDATE ListItem SET strikedOut= not strikedOut WHERE listId = :id")
+    fun strikeThrough(id: Int)
 }
