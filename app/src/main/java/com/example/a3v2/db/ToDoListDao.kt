@@ -26,8 +26,8 @@ interface ToDoListDao {
     @Delete
     fun delete(list: ToDoList)
 
-    @Update
-    fun upd(list: ToDoList)
+    @Query("UPDATE ToDoList SET isPending = :listIsPending WHERE listId = :id")
+    fun updListState(id: Int, listIsPending: Boolean)
 
     @Query("DELETE FROM ToDoList")
     suspend fun deleteAll()
@@ -38,6 +38,6 @@ interface ToDoListDao {
     @Query("DELETE FROM ToDoList WHERE listId = :id")
     suspend fun deleteById(id: Int)
 
-    @Query("UPDATE ToDoList SET isPending = not isPending WHERE listId=:id")
-    suspend fun strikeThrough(id: Int)
+    @Query("UPDATE ToDoList SET isPending = not :isPending WHERE listId=:id")
+    suspend fun strikeThrough(id: Int, isPending : Boolean)
 }

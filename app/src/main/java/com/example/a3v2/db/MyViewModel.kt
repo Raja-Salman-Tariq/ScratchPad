@@ -1,6 +1,5 @@
 package com.example.a3v2.db
 
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,8 +42,12 @@ class MyViewModel(private val repository: MyRepo/*application: Application?*/) :
         repository.deleteList(id)
     }
 
-    fun strikeThroughList(id:Int)  =   viewModelScope.launch(Dispatchers.IO) {
-        repository.strikeThroughList(id)
+    fun updListState(id: Int, listIsPending: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateListState(id, listIsPending)
+    }
+
+    fun strikeThroughList(id    :   Int, isStriked :   Boolean)  =   viewModelScope.launch(Dispatchers.IO) {
+        repository.strikeThroughList(id, isStriked)
     }
 }
 

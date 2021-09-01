@@ -187,13 +187,17 @@ class AddActivity : AppCompatActivity() {
                             "Enter your items line seperated here, or choose items from an exiting list" +
                             " by using the radio buttons, drop down, and corresponding item list."
                     Log.d("addbtn", "handleActionBarButtons:22222222 ")
-                } else {
+                }
+                else if (titleEv.text.isNullOrEmpty()){
+                    titleEv.error="You need to name your list"
+                }
+
+                else {
                     myViewModel.insertNewList(
                         ToDoList(
                             0,
                             true,
                             titleEv.text.toString(),
-                            "null",
                             true
                         ),
                     ).observe(this) { id ->
@@ -216,7 +220,7 @@ class AddActivity : AppCompatActivity() {
                 myViewModel.insertItem(ListItem(0, id.toInt(), item.text, false))
         }
 
-        val strTokr =   StringTokenizer(contentEv.text.toString())
+        val strTokr =   StringTokenizer(contentEv.text.toString(),"\n")
 
         while (strTokr.hasMoreTokens())
             myViewModel.insertItem(ListItem(0, id.toInt(), strTokr.nextToken(), false))

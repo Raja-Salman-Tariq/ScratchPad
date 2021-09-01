@@ -55,9 +55,9 @@ abstract class MyDB : RoomDatabase() {
             itemDao.deleteAll()
 
 
-            val first = ToDoList(0, true, "first list !", "", true)
-            val second = ToDoList(0, false, "second list !", "", false)
-            val third = ToDoList(0, true, "last list !", "", false)
+            val first = ToDoList(0, true, "first list !",true)
+            val second = ToDoList(0, false, "second list !", false)
+            val third = ToDoList(0, true, "last list !", false)
 
             Log.d("inserted", "populateDatabase: ")
             listDao.insertAll(first, second, third)

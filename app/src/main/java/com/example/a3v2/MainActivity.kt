@@ -3,7 +3,9 @@ package com.example.a3v2
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.Window
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,9 +32,9 @@ class MainActivity : AppCompatActivity() {
     private val focus_home_lists                        =   -1
     private val focus_all_lists                         =   -2
     lateinit var myTitle                        :   TextView
+    lateinit var addBtn                         :   FloatingActionButton
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,10 +64,34 @@ class MainActivity : AppCompatActivity() {
             myViewPager.currentItem = 1
             myTitle.text  =   resources.getString(R.string.all_lists_title)
         }
-    }
+
+        myViewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (position==1) {                                       // addBtn
+                    addBtn.visibility   =   View.INVISIBLE                   // visibility
+                    myTitle.text        =   resources.getString(R.string.all_lists_title)
+                } else {                                                 // home frag opened
+                    addBtn.visibility   =   View.VISIBLE
+                    myTitle.text        =   resources.getString(R.string.home_title)
+                    focus               =   focus_home_lists
+                }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+        })    }
 
     private fun handleAddBtn() {
-        val addBtn  =   findViewById<FloatingActionButton>(R.id.main_activity_add_btn)
+        addBtn = findViewById<FloatingActionButton>(R.id.main_activity_add_btn)
 
         addBtn.setOnClickListener {
 //            Toast.makeText(this, "working !", Toast.LENGTH_SHORT).show()

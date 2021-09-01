@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Single
 
 
 class MyRepo(
@@ -39,6 +38,12 @@ class MyRepo(
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun updateListState(id: Int, listIsPending: Boolean) {
+        toDoListDao.updListState(id, listIsPending)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun deleteList(id :   Int) {
         toDoListDao.deleteById(id)
         itemDao.deleteById(id)
@@ -59,8 +64,8 @@ class MyRepo(
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun strikeThroughList(id: Int) {
-        toDoListDao.strikeThrough(id)
-        itemDao.strikeThrough(id)
+    suspend fun strikeThroughList(id: Int, isStriked: Boolean) {
+        toDoListDao.strikeThrough(id, isStriked)
+        itemDao.strikeThrough(id, isStriked)
     }
 }

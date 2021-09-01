@@ -31,15 +31,6 @@
         android:layout_height="wrap_content">
 
 
-        <ImageView
-            android:id="@+id/rv_list_chevron"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/chevron_arrow"
-            android:layout_gravity="end"
-            app:layout_constraintTop_toTopOf="@id/rv_list_header"/>
-
-
         <TextView
             android:id="@+id/rv_list_header_title"
             android:layout_width="wrap_content"
@@ -51,6 +42,17 @@
             android:textColor="@color/white_alt"/>
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:id="@+id/rv_list_chevron"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chevron_arrow"
+        android:layout_gravity="end"
+        android:elevation="5dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toEndOf="@id/rv_list_header"
+        app:layout_constraintBottom_toBottomOf="@id/rv_list_header"
+        app:layout_constraintTop_toTopOf="@id/rv_list_header"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rv_list_items_expansion"

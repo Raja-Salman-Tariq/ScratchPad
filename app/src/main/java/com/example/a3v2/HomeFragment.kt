@@ -39,7 +39,8 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//        (activity as MainActivity).myTitle.text         =   resources.getString(R.string.home_title)
+//        (activity as MainActivity).addBtn.visibility    =   View.VISIBLE
         handleRv()
     }
 

@@ -25,7 +25,7 @@ import com.example.a3v2.MainActivity
 
 class OuterListAdapter(private val ctxt : Context,
                        private val fragment: BaseFragment,
-                               var data:MutableList<ToDoList>,
+                               var data:MutableList<ToDoList>   =   mutableListOf(),
                        private val myViewModel: MyViewModel )
     :    RecyclerView.Adapter<OuterListAdapter.MyViewHolder>(){
 
@@ -64,13 +64,6 @@ class OuterListAdapter(private val ctxt : Context,
             }
 
             innerList.addOnItemTouchListener(mScrollTouchListener)
-
-            listHead.setOnLongClickListener {
-                Log.d("longClick", "doing: ")
-                Toast.makeText(ctxt, "long clicked", Toast.LENGTH_SHORT).show()
-                fragment.myViewModel.strikeThroughList(data[adapterPosition].listId)
-                true
-            }
         }
 
     }
@@ -86,6 +79,14 @@ class OuterListAdapter(private val ctxt : Context,
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val toDoList    : ToDoList =   data[position]
         holder.listTitle.text           =   toDoList.title
+
+        holder.listHead.setOnLongClickListener {
+            val myToDoList  =   data[position]
+            Log.d("longClick", "doing: ")
+            Toast.makeText(ctxt, "long clicked", Toast.LENGTH_SHORT).show()
+            fragment.myViewModel.strikeThroughList(myToDoList.listId, myToDoList.isPending)
+            true
+        }
 
         if (toDoList.isPending){
             holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
@@ -121,9 +122,11 @@ class OuterListAdapter(private val ctxt : Context,
 
     override fun getItemCount() =   data.size
 
-    fun setMyData(lists: List<ToDoList>?) {
-            data= lists as MutableList<ToDoList>
-            notifyDataSetChanged()
+    fun setMyData(lists: List<ToDoList>) {
+        data.clear()
+        data.addAll(lists)
+        data.sortWith(compareBy<ToDoList>{!it.isPending}.thenBy { it.timestamp })
+        notifyDataSetChanged()
     }
 
     private fun observe(holder:MyViewHolder, items: List<ListItem>, listId:Int){
@@ -138,7 +141,6 @@ class OuterListAdapter(private val ctxt : Context,
         }
         else{
             holder.headerStrikeOut.visibility   =   View.INVISIBLE
-//            holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
             holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
         }
     }

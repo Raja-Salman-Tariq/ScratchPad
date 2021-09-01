@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">A3v2</string>
+    <string name="app_name">To Do List App</string>
     <string name="active_lists">Active Lists</string>
     <string name="home">Home</string>
     <string name="all_lists">All Lists</string>
