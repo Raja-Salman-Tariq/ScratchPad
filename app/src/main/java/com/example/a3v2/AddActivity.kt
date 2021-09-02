@@ -2,6 +2,7 @@ package com.example.a3v2
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -21,7 +22,7 @@ import kotlin.collections.ArrayList
 
 class AddActivity : AppCompatActivity() {
 
-    private lateinit var titleEv    :   EditText
+    private lateinit var titleEv    :   TextInputEditText
     private lateinit var rGroup     :   RadioGroup
     private lateinit var rvCard     :   CardView
     private lateinit var radioCard  :   CardView
@@ -146,9 +147,17 @@ class AddActivity : AppCompatActivity() {
         backBtn     =   findViewById(R.id.add_activity_back)
         doneBtn     =   findViewById(R.id.add_activity_add_btn)
 
+
+        val titleEvLayout   =    findViewById<TextInputLayout>(R.id.name_text_input_layout)
+
+        titleEvLayout.isHintEnabled=true
+        titleEvLayout.hint = "Enter your new list's title here."
+
         if (listId!=-1){
             titleEv.setText(listTitle)
             titleEv.isEnabled=false
+            titleEvLayout.hint=null
+            titleEvLayout.isHintEnabled=false
 
             rGroup.visibility= View.GONE
             rvCard.visibility= View.GONE
@@ -171,28 +180,45 @@ class AddActivity : AppCompatActivity() {
 
         doneBtn.setOnClickListener {
 
-            if (listId != -1) {
+            if (titleEv.text.isNullOrEmpty()) {
+                titleEv.error = "Please enter new list name to continue."
+                Log.d("addbtn", "handleActionBarButtons:22222222 ")
+                return@setOnClickListener
+            }
+            if ((rvAdapter?.selectedItems?.isEmpty() == true || rvAdapter == null) && contentEv.text.isNullOrEmpty()) {
+                contentEv.error = "No Items Selected For New List.\n\n" +
+                        "Enter your items line seperated here, or choose items from an exiting list" +
+                        " by using the radio buttons, drop down, and corresponding item list."
+                Log.d("addbtn", "handleActionBarButtons:22222222 ")
+                return@setOnClickListener
+            }
 
-                if (contentEv.text.isNullOrEmpty()) {
-                    contentEv.error = "Please enter new items to continue"
-                    Log.d("addbtn", "handleActionBarButtons:22222222 ")
-                }
-                else
+            if (listId != -1) {
+//                Log.d("addbtn", "cond: ${titleEv.text.isNullOrEmpty()}" +
+//                        "val: ${titleEv.text} ")
+
+//                if (titleEv.text.isNullOrEmpty()) {
+//                    titleEv.error = "Please enter new items to continue"
+//                    Log.d("addbtn", "handleActionBarButtons:22222222 ")
+//                }
+//                else
                     handleAddition(listId.toLong())
-            } else {
+            }
+            else {
 //            Log.d("addbtn", "handleActionBarButtons: ")
 
-                if ((rvAdapter?.selectedItems?.isEmpty() == true || rvAdapter == null) && contentEv.text.isNullOrEmpty()) {
-                    contentEv.error = "No Items Selected For New List.\n\n" +
-                            "Enter your items line seperated here, or choose items from an exiting list" +
-                            " by using the radio buttons, drop down, and corresponding item list."
-                    Log.d("addbtn", "handleActionBarButtons:22222222 ")
-                }
-                else if (titleEv.text.isNullOrEmpty()){
-                    titleEv.error="You need to name your list"
-                }
 
-                else {
+//                if ((rvAdapter?.selectedItems?.isEmpty() == true || rvAdapter == null) && contentEv.text.isNullOrEmpty()) {
+//                    contentEv.error = "No Items Selected For New List.\n\n" +
+//                            "Enter your items line seperated here, or choose items from an exiting list" +
+//                            " by using the radio buttons, drop down, and corresponding item list."
+//                    Log.d("addbtn", "handleActionBarButtons:22222222 ")
+//                }
+//                else if (titleEv.text.isNullOrEmpty()){
+//                    titleEv.error="You need to name your list"
+//                }
+
+//                else {
                     myViewModel.insertNewList(
                         ToDoList(
                             0,
@@ -203,7 +229,7 @@ class AddActivity : AppCompatActivity() {
                     ).observe(this) { id ->
                         handleAddition(id)
                     }
-                }
+//                }
 
             }
         }

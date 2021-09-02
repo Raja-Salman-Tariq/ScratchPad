@@ -64,6 +64,7 @@
         >
 
         <TextView
+            android:id="@+id/add_activity_title_txt_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title : "
@@ -81,10 +82,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/add_activity_title_txt"
-        app:layout_constraintTop_toTopOf="@id/add_activity_title_txt"
+        app:layout_constraintTop_toBottomOf="@id/add_activity_action_bar"
+        app:layout_constraintBottom_toTopOf="@id/radiocard"
         app:layout_constraintStart_toEndOf="@id/add_activity_title_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:boxCornerRadiusBottomEnd="15dp"
@@ -95,22 +96,27 @@
         app:hintTextColor="@color/blue"
         app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
+        app:errorEnabled="true"
+        android:gravity="bottom"
+        android:foregroundGravity="bottom"
+        android:layout_marginVertical="5dp"
         >
 
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_actitivty_title_ev"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:maxLines="1"
             android:maxLength="17"
-            android:hint="Enter your new list's title here "
             android:inputType="text"
             android:textColor="@color/blue"
             android:textStyle="bold"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColorHint="@color/blue"
             android:layout_marginHorizontal="15dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -124,6 +130,7 @@
         app:cardElevation="10dp"
         app:cardCornerRadius="13dp"
         android:layout_marginVertical="20dp"
+        android:layout_marginRight="10dp"
         app:layout_constraintStart_toStartOf="@id/add_activity_title_txt"
         app:layout_constraintTop_toBottomOf="@id/add_activity_title_txt"
         app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
@@ -204,7 +211,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="All"
+            android:text="All   "
             android:textColor="@color/deeper_white_alt"
             android:layout_gravity="center"
             android:gravity="center"
@@ -216,7 +223,6 @@
             android:layout_height="wrap_content"
             android:text="None"
             android:layout_gravity="center"
-            android:gravity="center"
             android:textColor="@color/deeper_white_alt"
             android:textSize="14dp"/>
 
@@ -309,6 +315,7 @@
         app:boxStrokeWidthFocused="0dp"
         android:scrollbars="vertical"
         app:hintTextColor="@color/blue"
+        android:gravity="top"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -325,6 +332,7 @@
             android:layout_gravity="top"
             android:maxLines="7"
             android:gravity="top"
+            android:minLines="2"
             />
 
     </com.google.android.material.textfield.TextInputLayout>

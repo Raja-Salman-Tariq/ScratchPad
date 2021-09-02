@@ -3,6 +3,7 @@ package com.example.a3v2
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 //    lateinit var binding: ActivityMainBinding
 
     private lateinit var myFragmentPagerAdapter :   MyFragmentPagerAdapter     // fragment+titles list
-    private lateinit var myViewPager            :   ViewPager                  // "eagerly" create+manage "pgs"
+    private lateinit var myViewPager            :   MyViewPager                  // "eagerly" create+manage "pgs"
     private val myViewModel: MyViewModel by viewModels {
         MyViewModelFactory((application as MyApplication).repository)
     }
@@ -116,6 +117,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleFrags() {
         myViewPager             =   findViewById(R.id.main_activity_fragment_container)
+
         myFragmentPagerAdapter  =   MyFragmentPagerAdapter(supportFragmentManager)
         myFragmentPagerAdapter.addFrag(HomeFragment(myViewModel), "Home")
         myFragmentPagerAdapter.addFrag(AllListsFragment(myViewModel), "All Lists")
