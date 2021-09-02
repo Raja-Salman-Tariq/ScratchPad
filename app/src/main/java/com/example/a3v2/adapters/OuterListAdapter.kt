@@ -1,6 +1,7 @@
 package com.example.a3v2.adapters
 
 import android.content.Context
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,7 @@ class OuterListAdapter(private val ctxt : Context,
         fragment: BaseFragment,
         data    : MutableList<ToDoList>,
         val chevron: ImageView = view.findViewById(R.id.rv_list_chevron),
+        val addBtn  :   ImageView = view.findViewById(R.id.rv_list_add_btn),
         val listHead: CardView = view.findViewById(R.id.rv_list_header),
         val headerStrikeOut: ImageView = view.findViewById(R.id.rv_outerlist_item_strikethrough),
         val listTitle: TextView = view.findViewById(R.id.rv_list_header_title),
@@ -42,6 +44,8 @@ class OuterListAdapter(private val ctxt : Context,
         private val innerList: RecyclerView = view.findViewById(R.id.rv_list_items),
         private val innerListData: MutableList<ListItem> = mutableListOf(),
         val adapter: InnerListAdapter = InnerListAdapter(fragment, ctxt, innerListData),
+        val timeStamp:   TextView    =   view.findViewById(R.id.rv_list_ts)
+,
     )   :   RecyclerView.ViewHolder(view){
         init {
 
@@ -64,7 +68,29 @@ class OuterListAdapter(private val ctxt : Context,
             }
 
             innerList.addOnItemTouchListener(mScrollTouchListener)
+
+            addBtn.setOnClickListener{
+                val myActivity:   MainActivity    =   (fragment.activity as MainActivity)
+                when (items.visibility){
+                    View.GONE       ->  {
+                        items.visibility =   View.VISIBLE
+                        chevron.rotation =   0f
+                    }
+                    View.VISIBLE    ->  {}
+                    View.INVISIBLE ->   {}
+                }
+
+                myActivity.focus    =   adapterPosition
+                myActivity.myTitle.text  =   data[adapterPosition].title
+                innerList.smoothScrollToPosition(0)
+//                Log.d("chngeAddBtn", "happening: ${adapter.data.isNotEmpty()}(empty) \n&& ${adapter.data[0]}")
+                if (adapter.data.isNotEmpty() && adapter.data[0].concrete) {
+                    adapter.data.add(0, ListItem(0, data[adapterPosition].listId, "", false, "", concrete = false))
+                    adapter.notifyItemInserted(0)
+                }
+            }
         }
+
 
     }
 
@@ -79,11 +105,12 @@ class OuterListAdapter(private val ctxt : Context,
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val toDoList    : ToDoList =   data[position]
         holder.listTitle.text           =   toDoList.title
+        holder.timeStamp.text           =   toDoList.formattedTimestamp()
 
         holder.listHead.setOnLongClickListener {
             val myToDoList  =   data[position]
             Log.d("longClick", "doing: ")
-            Toast.makeText(ctxt, "long clicked", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(ctxt, "long clicked", Toast.LENGTH_SHORT).show()
             fragment.myViewModel.strikeThroughList(myToDoList.listId, myToDoList.isPending)
             true
         }

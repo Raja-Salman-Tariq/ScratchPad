@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_all_lists_layout"
-    android:background="@color/pale"
     android:paddingTop="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="30dp"
-        android:backgroundTint="@color/pale"/>
+        android:backgroundTint="@color/yellow">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg5"
+            android:orientation="vertical"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_all_lists_rv"

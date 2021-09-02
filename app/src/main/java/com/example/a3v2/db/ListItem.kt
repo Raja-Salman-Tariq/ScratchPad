@@ -9,8 +9,20 @@ data class ListItem (
     @PrimaryKey(autoGenerate = true)
     val itemId      :   Int,
     val listId      :   Int,
-    val text        :   String,
+    var text        :   String,
     var strikedOut  :   Boolean,
-    val timestamp   :   String =       Timestamp((System.currentTimeMillis())).toString()
+    var timestamp   :   String =       Timestamp((System.currentTimeMillis())).toString(),
+    var concrete: Boolean = true
 )
 
+{
+    fun mkConcrete(myViewModel: MyViewModel, text: String){
+        this.text=text
+        timestamp=Timestamp((System.currentTimeMillis())).toString()
+        concrete = true
+        myViewModel.insertItem(this)
+    }
+    fun formattedTimestamp(): CharSequence? {
+        return MyTimestampFormatter(timestamp).formattedTimestamp
+    }
+}

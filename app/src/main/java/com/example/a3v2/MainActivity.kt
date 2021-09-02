@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.example.a3v2.adapters.MyFragmentPagerAdapter
 //import com.example.a3v2.databinding.ActivityMainBinding
@@ -53,17 +54,28 @@ class MainActivity : AppCompatActivity() {
         myTitle   =   findViewById(R.id.main_activity_title_text)
 
         val homeBtn =   findViewById<CardView>(R.id.main_activity_home_btn)
+        val allBtn =   findViewById<CardView>(R.id.main_activity_all_lists_btn)
+        val homeBtnTxt  =   findViewById<TextView>(R.id.main_activity_home_btn_txt)
+        val allBtnTxt  =   findViewById<TextView>(R.id.main_activity_all_btn_txt)
+
         homeBtn.setOnClickListener {
             focus=focus_home_lists
             myViewPager.currentItem = 0
             myTitle.text  =   resources.getString(R.string.home_title)
+            homeBtn.setCardBackgroundColor(ContextCompat.getColor(this, R.color.blue))
+            homeBtnTxt.setTextColor(ContextCompat.getColor(this, R.color.white_alt))
+            allBtn.setCardBackgroundColor(ContextCompat.getColor(this, R.color.deeper_white_alt))
+            allBtnTxt.setTextColor(ContextCompat.getColor(this, R.color.blue))
         }
 
-        val allBtn =   findViewById<CardView>(R.id.main_activity_all_lists_btn)
         allBtn.setOnClickListener {
             focus=focus_all_lists
             myViewPager.currentItem = 1
             myTitle.text  =   resources.getString(R.string.all_lists_title)
+            homeBtn.setCardBackgroundColor(ContextCompat.getColor(this, R.color.deeper_white_alt))
+            homeBtnTxt.setTextColor(ContextCompat.getColor(this, R.color.blue))
+            allBtn.setCardBackgroundColor(ContextCompat.getColor(this, R.color.blue))
+            allBtnTxt.setTextColor(ContextCompat.getColor(this, R.color.white_alt))
         }
 
         myViewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
@@ -95,23 +107,24 @@ class MainActivity : AppCompatActivity() {
         addBtn = findViewById<FloatingActionButton>(R.id.main_activity_add_btn)
 
         addBtn.setOnClickListener {
+            focus = focus_home_lists
 //            Toast.makeText(this, "working !", Toast.LENGTH_SHORT).show()
             Log.d("abc", "handleAddBtn: ")
             if (focus == focus_home_lists) {
 //                myViewModel.insertList(ToDoList(0, true, "Another one !", "null", false))
                 startActivity(Intent(this, AddActivity::class.java))
             }
-            else if (focus == focus_all_lists){
-
-            }
-            else{
-                val toDoList    =   ((myFragmentPagerAdapter.getItem(myViewPager.currentItem)) as BaseFragment).adapter.data[focus]
-                startActivity(Intent(this, AddActivity::class.java)
-                    .apply {
-                        putExtra("title",toDoList.title)
-                        putExtra("id", toDoList.listId)
-                    })
-            }
+//            else if (focus == focus_all_lists){
+//
+//            }
+//            else{
+//                val toDoList    =   ((myFragmentPagerAdapter.getItem(myViewPager.currentItem)) as BaseFragment).adapter.data[focus]
+//                startActivity(Intent(this, AddActivity::class.java)
+//                    .apply {
+//                        putExtra("title",toDoList.title)
+//                        putExtra("id", toDoList.listId)
+//                    })
+//            }
         }
     }
 

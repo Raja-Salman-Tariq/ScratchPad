@@ -1,28 +1,42 @@
 package com.example.a3v2.adapters
 
 import android.content.Context
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a3v2.R
 import com.example.a3v2.BaseFragment
 import com.example.a3v2.db.ListItem
+import com.google.android.material.textfield.TextInputEditText
+import android.app.Activity
 
-class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : Context, private var data:MutableList<ListItem>)
+
+
+
+class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : Context, var data:MutableList<ListItem>)
     :    RecyclerView.Adapter<InnerListAdapter.MyViewHolder>(){
 
     val selectedItems   =   mutableSetOf<ListItem>()
 
     class MyViewHolder(view :   View,
                        val itemTxt  :   TextView    =   view.findViewById(R.id.rv_innerlist_item),
+                       val editTxt  :   TextInputEditText   =   view.findViewById(R.id.rv_innerlist_item_edit_text),
                        val cardView :   CardView    =   view.findViewById(R.id.rv_innerlist_item_card),
-                       val strikeOut:  ImageView   =   view.findViewById(R.id.rv_innerlist_item_strikethrough)
+                       val strikeOut:  ImageView    =   view.findViewById(R.id.rv_innerlist_item_strikethrough),
+                       val timeStamp:   TextView    =   view.findViewById(R.id.rv_innerlist_ts),
+                       val okBtn    :   ImageView   =   view.findViewById(R.id.rv_innerlist_ok),
+                       val cancelBtn:   ImageView   =   view.findViewById(R.id.rv_innerlist_cancel)
     )   :   RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -30,8 +44,59 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
             .inflate(R.layout.innerlist_layout, parent, false))
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         val listItem            =   data[position]
-        holder.itemTxt.text     =   listItem.text
+        holder.itemTxt.isCursorVisible=false
+
+        if (!listItem.concrete){
+            holder.itemTxt.visibility=View.GONE
+            holder.editTxt.visibility=View.VISIBLE
+            Log.d("chngeAddBtn", "onBindViewHolder: ")
+            holder.editTxt.hint = "Enter new item here"
+            holder.editTxt.setHintTextColor(ContextCompat.getColor(ctxt,R.color.blue))
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
+            holder.editTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
+            holder.okBtn.visibility=View.VISIBLE
+            holder.cancelBtn.visibility=View.VISIBLE
+            holder.strikeOut.visibility = View.GONE
+
+            holder.editTxt.inputType=InputType.TYPE_CLASS_TEXT
+            holder.editTxt.isClickable=true
+            holder.editTxt.isCursorVisible=true
+
+            holder.okBtn.setOnClickListener{
+                if (holder.editTxt.text.isNullOrEmpty())
+                    holder.editTxt.error = "Enter item description."
+                else {
+                    data[position].mkConcrete(
+                        fragment?.myViewModel!!,
+                        holder.editTxt.text.toString()
+                    )
+
+                    (ctxt.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+                        .hideSoftInputFromWindow(fragment.view?.windowToken, 0)
+
+                    holder.itemTxt.visibility=View.VISIBLE
+                    holder.editTxt.visibility=View.GONE
+                    holder.okBtn.visibility=View.GONE
+                    holder.cancelBtn.visibility=View.GONE
+                }
+                holder.editTxt.text = null
+            }
+
+            holder.cancelBtn.setOnClickListener{
+                data.removeAt(0)
+                notifyItemRemoved(0)
+                (ctxt.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+                    .hideSoftInputFromWindow(fragment?.view?.windowToken, 0)
+                holder.editTxt.text = null
+
+            }
+            return
+        }
+
+        holder.itemTxt.setText(listItem.text)
+        holder.timeStamp.text   =   listItem.formattedTimestamp()
 
 
         if (fragment==null){ //  frag null means this is second usage of adapter in the add button activity
@@ -111,6 +176,9 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
     }
 
     private fun setListeners(holder: MyViewHolder, item: ListItem){
+        if (!item.concrete)
+            return
+
         holder.cardView.setOnClickListener(View.OnClickListener {
 
             var wasPending = false

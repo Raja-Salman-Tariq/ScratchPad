@@ -1,9 +1,11 @@
 package com.example.a3v2
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -56,10 +58,6 @@ class AddActivity : AppCompatActivity() {
 
         initViews(listId)
 
-//        myViewModel.allLists.observe(this){
-//                lists   ->  handleSpinner(lists)
-//        }
-
         handleSpinner(mutableListOf())
         handleRadios()  // in turn handles spinner which in turn handles rv
 
@@ -110,6 +108,8 @@ class AddActivity : AppCompatActivity() {
         rGroup.check(R.id.radio2)
         rGroup.setOnCheckedChangeListener(object:RadioGroup.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
+                (this@AddActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+                    .hideSoftInputFromWindow(this@AddActivity.window.decorView.rootView?.windowToken, 0)
                 when (rGroup.checkedRadioButtonId){
                     R.id.radio0 ->  {
                         spinner.isEnabled   =   true
@@ -171,14 +171,15 @@ class AddActivity : AppCompatActivity() {
 
 
         handleActionBarButtons()
-
-//        contentEv.onFocusChangeListener = View.OnFocusChangeListener { _, _ -> contentEv.error=null }
     }
 
     private fun handleActionBarButtons(){
         backBtn.setOnClickListener { finish() }
 
         doneBtn.setOnClickListener {
+
+            (this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(this.window.decorView.windowToken, 0)
 
             if (titleEv.text.isNullOrEmpty()) {
                 titleEv.error = "Please enter new list name to continue."
@@ -194,31 +195,10 @@ class AddActivity : AppCompatActivity() {
             }
 
             if (listId != -1) {
-//                Log.d("addbtn", "cond: ${titleEv.text.isNullOrEmpty()}" +
-//                        "val: ${titleEv.text} ")
-
-//                if (titleEv.text.isNullOrEmpty()) {
-//                    titleEv.error = "Please enter new items to continue"
-//                    Log.d("addbtn", "handleActionBarButtons:22222222 ")
-//                }
-//                else
                     handleAddition(listId.toLong())
             }
             else {
-//            Log.d("addbtn", "handleActionBarButtons: ")
 
-
-//                if ((rvAdapter?.selectedItems?.isEmpty() == true || rvAdapter == null) && contentEv.text.isNullOrEmpty()) {
-//                    contentEv.error = "No Items Selected For New List.\n\n" +
-//                            "Enter your items line seperated here, or choose items from an exiting list" +
-//                            " by using the radio buttons, drop down, and corresponding item list."
-//                    Log.d("addbtn", "handleActionBarButtons:22222222 ")
-//                }
-//                else if (titleEv.text.isNullOrEmpty()){
-//                    titleEv.error="You need to name your list"
-//                }
-
-//                else {
                     myViewModel.insertNewList(
                         ToDoList(
                             0,
@@ -229,8 +209,6 @@ class AddActivity : AppCompatActivity() {
                     ).observe(this) { id ->
                         handleAddition(id)
                     }
-//                }
-
             }
         }
     }
