@@ -55,6 +55,7 @@ class OuterListAdapter(private val ctxt : Context,
             items.visibility        =   View.GONE
             headerStrikeOut.visibility  =   View.GONE
 
+            // for scrolling
             val mScrollTouchListener: OnItemTouchListener = object : OnItemTouchListener {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                     when (e.action) {
@@ -69,6 +70,7 @@ class OuterListAdapter(private val ctxt : Context,
 
             innerList.addOnItemTouchListener(mScrollTouchListener)
 
+            // add item to list; open items view, create dummy item, perform checks
             addBtn.setOnClickListener{
                 val myActivity:   MainActivity    =   (fragment.activity as MainActivity)
                 when (items.visibility){
@@ -102,11 +104,13 @@ class OuterListAdapter(private val ctxt : Context,
             data
         )
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val toDoList    : ToDoList =   data[position]
         holder.listTitle.text           =   toDoList.title
         holder.timeStamp.text           =   toDoList.formattedTimestamp()
 
+        // long hold to mark or unmark all
         holder.listHead.setOnLongClickListener {
             val myToDoList  =   data[position]
             Log.d("longClick", "doing: ")
@@ -115,6 +119,7 @@ class OuterListAdapter(private val ctxt : Context,
             true
         }
 
+        // set visual situation of list - show as blue or red, striked ?
         if (toDoList.isPending){
             holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
             holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
@@ -124,6 +129,7 @@ class OuterListAdapter(private val ctxt : Context,
             holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
         }
 
+        // open list and show items or close list
         holder.listHead.setOnClickListener {
             val myActivity:   MainActivity    =   (fragment.activity as MainActivity)
             when (holder.items.visibility){
@@ -142,6 +148,7 @@ class OuterListAdapter(private val ctxt : Context,
             myActivity.myTitle.text  =   toDoList.title
         }
 
+        // observe data
         myViewModel.allItems.observe(fragment.viewLifecycleOwner){
                 items   ->  observe(holder, items, toDoList.listId)
         }
@@ -149,6 +156,7 @@ class OuterListAdapter(private val ctxt : Context,
 
     override fun getItemCount() =   data.size
 
+    // sort and reset data
     fun setMyData(lists: List<ToDoList>) {
         data.clear()
         data.addAll(lists)
@@ -156,6 +164,7 @@ class OuterListAdapter(private val ctxt : Context,
         notifyDataSetChanged()
     }
 
+    // cater to only items which match given listID, and decide how to show items and list
     private fun observe(holder:MyViewHolder, items: List<ListItem>, listId:Int){
         val listIsPending   =   holder.adapter.setData(items, listId )
         if (!listIsPending){

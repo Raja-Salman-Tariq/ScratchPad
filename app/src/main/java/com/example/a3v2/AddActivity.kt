@@ -46,8 +46,6 @@ class AddActivity : AppCompatActivity() {
         MyViewModelFactory((application as MyApplication).repository)
     }
 
-    var adapter         :   ArrayAdapter<String>?   =   null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
@@ -77,6 +75,7 @@ class AddActivity : AppCompatActivity() {
 
     }
 
+    // spinner menu + recycleview population with selected list's items
     private fun handleSpinner(lists: List<ToDoList>) {
         if (lists.isNotEmpty())
             spinArrow.visibility=View.VISIBLE
@@ -102,7 +101,7 @@ class AddActivity : AppCompatActivity() {
 
     }
 
-
+    // radio button selection and sending relevant lists to spinner
     private fun handleRadios(){
         spinner.isEnabled=false
         rGroup.check(R.id.radio2)
@@ -173,6 +172,7 @@ class AddActivity : AppCompatActivity() {
         handleActionBarButtons()
     }
 
+    // either closes the add activity, or creates new list/items - performs various error checks
     private fun handleActionBarButtons(){
         backBtn.setOnClickListener { finish() }
 
@@ -213,6 +213,7 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
+    // adds items selected by tapping into db
     private fun handleAddition(id: Long) {
 
         Log.d("mineidx", "handleAddition: ${id.toInt()}")

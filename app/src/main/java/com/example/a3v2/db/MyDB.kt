@@ -79,12 +79,6 @@ abstract class MyDB : RoomDatabase() {
             v0  =   ListItem(0, 2, "Grocery", true)
             itemDao.insertAll(v0)
 
-            // Add sample words.
-//            var word = Word("Hello")
-//            wordDao.insert(word)
-//            word = Word("World!")
-//            wordDao.insert(word)
-//
         }
     }
 

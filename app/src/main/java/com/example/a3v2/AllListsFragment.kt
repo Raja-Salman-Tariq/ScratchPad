@@ -39,8 +39,6 @@ class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        (activity as MainActivity).myTitle.text         =   resources.getString(R.string.all_lists_title)
-//        (activity as MainActivity).addBtn.visibility    =   View.INVISIBLE
         handleRv()
     }
 
@@ -52,7 +50,6 @@ class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
     private fun handleRv() {
         emptyTxt        =   view?.findViewById(R.id.fragment_all_lists_empty_txt)!!
         recyclerView    =   view?.findViewById(R.id.fragment_all_lists_rv)!!
-//        recyclerView    =   binding.fragmentHomeAllListsRv
 
         data = mutableListOf()
 
@@ -64,6 +61,7 @@ class AllListsFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
                 lists   ->  observeAllListsFragmentData(lists)
         }
 
+        // For swipping
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
             ItemTouchHelper.SimpleCallback(
                 0,

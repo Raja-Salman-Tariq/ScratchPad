@@ -42,9 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
         //----------------------
-//        myViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
         Log.d("abc", "hafgfhghgndleAddBtn: ")
-//        binding =   ActivityMainBinding.inflate(layoutInflater)
         handleFrags()
         handleAddBtn()
         handleNavBtns()
@@ -108,23 +106,11 @@ class MainActivity : AppCompatActivity() {
 
         addBtn.setOnClickListener {
             focus = focus_home_lists
-//            Toast.makeText(this, "working !", Toast.LENGTH_SHORT).show()
             Log.d("abc", "handleAddBtn: ")
             if (focus == focus_home_lists) {
-//                myViewModel.insertList(ToDoList(0, true, "Another one !", "null", false))
                 startActivity(Intent(this, AddActivity::class.java))
             }
-//            else if (focus == focus_all_lists){
-//
-//            }
-//            else{
-//                val toDoList    =   ((myFragmentPagerAdapter.getItem(myViewPager.currentItem)) as BaseFragment).adapter.data[focus]
-//                startActivity(Intent(this, AddActivity::class.java)
-//                    .apply {
-//                        putExtra("title",toDoList.title)
-//                        putExtra("id", toDoList.listId)
-//                    })
-//            }
+
         }
     }
 

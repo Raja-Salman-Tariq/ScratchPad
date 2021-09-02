@@ -43,11 +43,13 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
         return MyViewHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.innerlist_layout, parent, false))
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val listItem            =   data[position]
         holder.itemTxt.isCursorVisible=false
 
+        // if list is temporary, deal with it in its special way and then return
         if (!listItem.concrete){
             holder.itemTxt.visibility=View.GONE
             holder.editTxt.visibility=View.VISIBLE
@@ -98,11 +100,13 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
         holder.itemTxt.setText(listItem.text)
         holder.timeStamp.text   =   listItem.formattedTimestamp()
 
-
-        if (fragment==null){ //  frag null means this is second usage of adapter in the add button activity
+        //  frag null means this is second usage of adapter in the add button activity
+        if (fragment==null){
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
             holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
             holder.strikeOut.visibility=View.INVISIBLE
+
+            // add or remove tapped selections in add activity
             holder.cardView.setOnClickListener(object:View.OnClickListener{
                 override fun onClick(p0: View?) {
                     val item    :   ListItem    =   data[holder.adapterPosition]
@@ -133,6 +137,7 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
             return
         }
 
+        // set strikethrough
         if (listItem.strikedOut){
             holder.itemTxt.tag  =   ctxt.resources.getString(R.string.striked_through)
             holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.red))
@@ -154,6 +159,7 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
 
     override fun getItemCount() =   data.size
 
+    // get and set relevant data. Sort as well. Returns if list is pending, used by outer adapter to set how to display outer list (red or blue)
     fun setData(items   :   List<ListItem>, listId  :   Int): Boolean {
         if (fragment==null)
             Log.d("xyz", "setData: ${items.size}\n$items")
@@ -175,6 +181,7 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
         return listIsPending
     }
 
+    // handle listening for deciding whether or not to strike through items
     private fun setListeners(holder: MyViewHolder, item: ListItem){
         if (!item.concrete)
             return
@@ -211,14 +218,9 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
                 if (!item.strikedOut)
                     listIsPending++
 
-//            if (!listIsPending) {
-//                fragment?.myViewModel?.updListState(data[0].listId, listIsPending>0)
-//            }
-
             if (wasPending!= (listIsPending>0))
                 fragment?.myViewModel?.updListState(data[0].listId, listIsPending>0)
         })
     }
-
 
 }

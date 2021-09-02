@@ -39,8 +39,6 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        (activity as MainActivity).myTitle.text         =   resources.getString(R.string.home_title)
-//        (activity as MainActivity).addBtn.visibility    =   View.VISIBLE
         handleRv()
     }
 
@@ -52,7 +50,6 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
     private fun handleRv() {
         emptyTxt        =   view?.findViewById(R.id.fragment_home_empty_txt)!!
         recyclerView    = view?.findViewById(R.id.fragment_home_all_lists_rv)!!
-//        recyclerView    =   binding.fragmentHomeAllListsRv
 
         data = mutableListOf()
 
@@ -65,7 +62,7 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
                 lists   ->  observeHomeFragmentData(lists)
         }
 
-
+        // For Swiping
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
             ItemTouchHelper.SimpleCallback(
                 0,
@@ -76,13 +73,10 @@ class HomeFragment(myViewModel: MyViewModel) : BaseFragment(myViewModel) {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-//                Toast.makeText(context, "on Move", Toast.LENGTH_SHORT).show()
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-//                Toast.makeText(context, "on Swiped $swipeDir", Toast.LENGTH_SHORT).show()
-                //Remove swiped item from list and notify the RecyclerView
                 myViewModel.deactivateList(adapter.getListId(viewHolder.adapterPosition))
                 (this@HomeFragment.activity as MainActivity).apply {
                     focus           =   -1
