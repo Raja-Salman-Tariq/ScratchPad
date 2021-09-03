@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pale"
+    android:background="@drawable/bg5"
     tools:context=".AddActivity">
 
     <ImageView
@@ -47,46 +47,62 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
+        <RelativeLayout
+            android:id="@+id/carBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bluebg2"/>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/add_activity_title_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:cardBackgroundColor="@color/blue"
         app:cardElevation="10dp"
         app:cardCornerRadius="13dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_activity_action_bar"
+        app:layout_constraintStart_toStartOf="@id/add_activity_title_txt_tv"
+        app:layout_constraintEnd_toEndOf="@id/add_activity_title_txt_tv"
+        app:layout_constraintBottom_toBottomOf="@id/add_activity_title_txt_tv"
+        app:layout_constraintTop_toTopOf="@id/add_activity_title_txt_tv"
         >
 
-        <TextView
-            android:id="@+id/add_activity_title_txt_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title : "
-            android:textColor="@color/deeper_white_alt"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="10dp"
-            />
-
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="@drawable/bluebg2">
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/add_activity_title_txt_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title : "
+        android:textColor="@color/deeper_white_alt"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:elevation="10dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toTopOf="@id/name_text_input_layout"
+        app:layout_constraintBottom_toBottomOf="@id/name_text_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/name_text_input_layout"
+        />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input_layout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:elevation="5dp"
         app:layout_constraintTop_toBottomOf="@id/add_activity_action_bar"
-        app:layout_constraintBottom_toTopOf="@id/radiocard"
-        app:layout_constraintStart_toEndOf="@id/add_activity_title_txt"
+        app:layout_constraintStart_toEndOf="@id/add_activity_title_txt_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
@@ -97,10 +113,7 @@
         app:boxStrokeWidthFocused="0dp"
         app:boxStrokeWidth="0dp"
         app:errorEnabled="true"
-        android:gravity="bottom"
-        android:foregroundGravity="bottom"
-        android:layout_marginVertical="5dp"
-        >
+        android:paddingTop="20dp">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -115,8 +128,6 @@
             android:textSize="16sp"
             android:textColorHint="@color/blue"
             android:layout_marginHorizontal="15dp"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -125,29 +136,42 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/radiocard"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:cardBackgroundColor="@color/blue"
         app:cardElevation="10dp"
         app:cardCornerRadius="13dp"
         android:layout_marginVertical="20dp"
-        android:layout_marginRight="10dp"
-        app:layout_constraintStart_toStartOf="@id/add_activity_title_txt"
-        app:layout_constraintTop_toBottomOf="@id/add_activity_title_txt"
+        android:layout_marginRight="15dp"
+        app:layout_constraintStart_toStartOf="@id/radiotxt"
+        app:layout_constraintBottom_toBottomOf="@id/radiotxt"
         app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
+        app:layout_constraintTop_toTopOf="@id/radiotxt"
         >
 
-        <TextView
-            android:id="@+id/radiotxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="15dp"
-            android:text="Keep items from : "
-            android:textColor="@color/deeper_white_alt"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bluebg2">
+        </RelativeLayout>
+
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/radiotxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Keep items from : "
+        android:textColor="@color/deeper_white_alt"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:elevation="10dp"
+        android:paddingVertical="35dp"
+        android:paddingLeft="15dp"
+        android:layout_marginTop="-20dp"
+        app:layout_constraintTop_toBottomOf="@id/name_text_input_layout"
+        app:layout_constraintStart_toStartOf="@id/add_activity_title_txt"
+        />
 
     <RadioGroup
         android:id="@+id/radioGroup1"
@@ -156,9 +180,10 @@
         android:orientation="horizontal"
         android:layout_gravity="end"
         android:elevation="10dp"
-        app:layout_constraintEnd_toEndOf="@id/radiocard"
-        app:layout_constraintTop_toTopOf="@id/radiocard"
-        app:layout_constraintBottom_toBottomOf="@id/radiocard"
+        android:layout_marginRight="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/radiotxt"
+        app:layout_constraintBottom_toBottomOf="@id/radiotxt"
         >
 
         <RadioButton
@@ -272,11 +297,20 @@
         app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
         app:layout_constraintTop_toBottomOf="@id/my_spinner">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You don't have any to do items here\nto copy from. "
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/addRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="30dp"
+            android:background="@color/deeper_white_alt"
+            android:visibility="gone"
             android:layout_marginTop="15dp" />
 
     </androidx.cardview.widget.CardView>

@@ -19,6 +19,7 @@ import com.example.a3v2.db.ListItem
 import com.example.a3v2.db.MyViewModel
 import com.example.a3v2.db.ToDoList
 import android.view.MotionEvent
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.example.a3v2.MainActivity
@@ -44,7 +45,8 @@ class OuterListAdapter(private val ctxt : Context,
         private val innerList: RecyclerView = view.findViewById(R.id.rv_list_items),
         private val innerListData: MutableList<ListItem> = mutableListOf(),
         val adapter: InnerListAdapter = InnerListAdapter(fragment, ctxt, innerListData),
-        val timeStamp:   TextView    =   view.findViewById(R.id.rv_list_ts)
+        val timeStamp:   TextView    =   view.findViewById(R.id.rv_list_ts),
+        val bg       :  RelativeLayout= view.findViewById(R.id.carBg)
 ,
     )   :   RecyclerView.ViewHolder(view){
         init {
@@ -121,11 +123,13 @@ class OuterListAdapter(private val ctxt : Context,
 
         // set visual situation of list - show as blue or red, striked ?
         if (toDoList.isPending){
-            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
+//            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.bluebg2)
             holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
         }
         else{
-            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.redbg3)
+//            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
             holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
         }
 
@@ -173,11 +177,13 @@ class OuterListAdapter(private val ctxt : Context,
             params.width    = holder.listTitle.width
             holder.headerStrikeOut.layoutParams =   params
 //            holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
+//            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.redbg3)
         }
         else{
             holder.headerStrikeOut.visibility   =   View.INVISIBLE
-            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
+//            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.bluebg2)
         }
     }
 

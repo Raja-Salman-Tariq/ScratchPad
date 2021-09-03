@@ -77,8 +77,9 @@ class AddActivity : AppCompatActivity() {
 
     // spinner menu + recycleview population with selected list's items
     private fun handleSpinner(lists: List<ToDoList>) {
-        if (lists.isNotEmpty())
-            spinArrow.visibility=View.VISIBLE
+//        if (lists.isNotEmpty()){
+//            spinArrow.visibility=View.VISIBLE
+//        }
 
         val data    =   ArrayList<String>()
         for (todolist:ToDoList  in  lists){
@@ -109,18 +110,39 @@ class AddActivity : AppCompatActivity() {
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
                 (this@AddActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
                     .hideSoftInputFromWindow(this@AddActivity.window.decorView.rootView?.windowToken, 0)
+                rvCard.visibility = View.VISIBLE
                 when (rGroup.checkedRadioButtonId){
                     R.id.radio0 ->  {
-                        spinner.isEnabled   =   true
-                        rvCard.visibility   =   View.VISIBLE
-                        recycleView.visibility = View.VISIBLE
-                        myViewModel.allActiveLists.value?.let { handleSpinner(it) }
+                        myViewModel.allActiveLists.value?.let {
+                            if (it.isNotEmpty()) {
+                                spinner.isEnabled = true
+                                spinner.visibility = View.VISIBLE
+                                spinArrow.visibility = View.VISIBLE
+                                recycleView.visibility = View.VISIBLE
+                                handleSpinner(it)
+                            }
+                            else{
+                                recycleView.visibility=View.GONE
+                                spinner.visibility = View.GONE
+                                spinArrow.visibility = View.GONE
+                            }
+                        }
                     }
                     R.id.radio1 ->  {
-                        spinner.isEnabled   =   true
-                        rvCard.visibility   =   View.VISIBLE
-                        recycleView.visibility = View.VISIBLE
-                        myViewModel.allLists.value?.let { handleSpinner(it) }
+                        myViewModel.allLists.value?.let {
+                            if (it.isNotEmpty()) {
+                                spinner.isEnabled = true
+                                spinner.visibility = View.VISIBLE
+                                spinArrow.visibility = View.VISIBLE
+                                recycleView.visibility = View.VISIBLE
+                                handleSpinner(it)
+                            }
+                            else {
+                                recycleView.visibility=View.GONE
+                                spinner.visibility = View.GONE
+                                spinArrow.visibility = View.GONE
+                            }
+                        }
                     }
                     R.id.radio2 ->  {
                         spinner.isEnabled   =   false
