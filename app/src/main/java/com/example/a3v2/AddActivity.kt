@@ -39,8 +39,8 @@ class AddActivity : AppCompatActivity() {
     private lateinit var backBtn    :   ImageView
     private lateinit var doneBtn    :   ImageView
 
-    private lateinit var listTitle  :   String
-    private          var listId     :   Int                     =   -1
+//    private lateinit var listTitle  :   String
+//    private          var listId     :   Int                     =   -1
 
     private val myViewModel: MyViewModel by viewModels {
         MyViewModelFactory((application as MyApplication).repository)
@@ -51,10 +51,10 @@ class AddActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add)
         supportActionBar?.hide()
 
-        listTitle   =   intent.getStringExtra("title").toString()
-        listId      =   intent.getIntExtra("id", -1)
+//        listTitle   =   intent.getStringExtra("title").toString()
+//        listId      =   intent.getIntExtra("id", -1)
 
-        initViews(listId)
+        initViews(/*listId*/)
 
         handleSpinner(mutableListOf())
         handleRadios()  // in turn handles spinner which in turn handles rv
@@ -154,7 +154,7 @@ class AddActivity : AppCompatActivity() {
 
     }
 
-    private fun initViews(listId : Int){
+    private fun initViews(/*listId : Int*/){
         titleEv     =   findViewById(R.id.add_actitivty_title_ev)
         rGroup      =   findViewById(R.id.radioGroup1)
         rvCard      =   findViewById(R.id.add_rv_card)
@@ -174,21 +174,21 @@ class AddActivity : AppCompatActivity() {
         titleEvLayout.isHintEnabled=true
         titleEvLayout.hint = "Enter your new list's title here."
 
-        if (listId!=-1){
-            titleEv.setText(listTitle)
-            titleEv.isEnabled=false
-            titleEvLayout.hint=null
-            titleEvLayout.isHintEnabled=false
-
-            rGroup.visibility= View.GONE
-            rvCard.visibility= View.GONE
-            radioCard.visibility= View.GONE
-            seperator.visibility= View.GONE
-            spinner.visibility= View.GONE
-            spinArrow.visibility= View.GONE
-
-
-        }
+//        if (listId!=-1){
+//            titleEv.setText(listTitle)
+//            titleEv.isEnabled=false
+//            titleEvLayout.hint=null
+//            titleEvLayout.isHintEnabled=false
+//
+//            rGroup.visibility= View.GONE
+//            rvCard.visibility= View.GONE
+//            radioCard.visibility= View.GONE
+//            seperator.visibility= View.GONE
+//            spinner.visibility= View.GONE
+//            spinArrow.visibility= View.GONE
+//
+//
+//        }
 
 
         handleActionBarButtons()
@@ -216,10 +216,10 @@ class AddActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (listId != -1) {
-                    handleAddition(listId.toLong())
-            }
-            else {
+//            if (listId != -1) {
+//                    handleAddition(listId.toLong())
+//            }
+//            else {
 
                     myViewModel.insertNewList(
                         ToDoList(
@@ -231,7 +231,7 @@ class AddActivity : AppCompatActivity() {
                     ).observe(this) { id ->
                         handleAddition(id)
                     }
-            }
+//            }
         }
     }
 
@@ -240,9 +240,9 @@ class AddActivity : AppCompatActivity() {
 
         Log.d("mineidx", "handleAddition: ${id.toInt()}")
 
-        if (id<=0)  return
+//        if (id<=0)  return
 
-        if (listId==-1 && rvAdapter?.selectedItems?.isNotEmpty() == true){
+        if (/*listId==-1 && */rvAdapter?.selectedItems?.isNotEmpty() == true){
             for (item   :   ListItem    in  rvAdapter?.selectedItems!!)
                 myViewModel.insertItem(ListItem(0, id.toInt(), item.text, false))
         }

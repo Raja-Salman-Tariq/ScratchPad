@@ -124,11 +124,11 @@ class OuterListAdapter(private val ctxt : Context,
         // set visual situation of list - show as blue or red, striked ?
         if (toDoList.isPending){
 //            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
-            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.bluebg2)
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.bluebg2c)
             holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
         }
         else{
-            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.redbg3)
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.redbg3c)
 //            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
             holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
         }
@@ -178,12 +178,12 @@ class OuterListAdapter(private val ctxt : Context,
             holder.headerStrikeOut.layoutParams =   params
 //            holder.listTitle.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
 //            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.red))
-            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.redbg3)
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.redbg3c)
         }
         else{
             holder.headerStrikeOut.visibility   =   View.INVISIBLE
 //            holder.listHead.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
-            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.bluebg2)
+            holder.bg.background=ContextCompat.getDrawable(ctxt, R.drawable.bluebg2c)
         }
     }
 

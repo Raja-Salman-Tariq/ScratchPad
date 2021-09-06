@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:background="@drawable/bluebg2"
+            android:background="@drawable/bluebg2c"
             android:orientation="vertical">
         </LinearLayout>
 
@@ -31,19 +31,20 @@
 
     <TextView
         android:id="@+id/main_activity_title_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="15dp"
+        android:layout_marginVertical="5dp"
         android:text="@string/active_lists"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textColor="@color/deeper_white_alt"
         android:textStyle="bold"
         android:elevation="20dp"
         android:gravity="start"
+        android:maxLines="2"
         app:layout_constraintTop_toTopOf="@id/main_activity_title_card_view"
         app:layout_constraintBottom_toBottomOf="@id/main_activity_title_card_view"
         app:layout_constraintStart_toStartOf="@id/main_activity_title_card_view"
-        app:layout_constraintEnd_toEndOf="@id/main_activity_title_card_view"
+        app:layout_constraintEnd_toStartOf="@id/main_activity_add_btn"
         android:layout_marginLeft="20dp"
         />
 

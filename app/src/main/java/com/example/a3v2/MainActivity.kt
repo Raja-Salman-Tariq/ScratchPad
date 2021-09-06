@@ -1,6 +1,7 @@
 package com.example.a3v2
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -18,6 +19,10 @@ import com.example.a3v2.adapters.MyFragmentPagerAdapter
 import com.example.a3v2.db.MyViewModel
 import com.example.a3v2.db.MyViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.widget.Toast
+
+
+
 
 //import com.example.a3v2.db.MyViewModelFactory
 
@@ -36,13 +41,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var myTitle                        :   TextView
     lateinit var addBtn                         :   FloatingActionButton
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
         //----------------------
-        Log.d("abc", "hafgfhghgndleAddBtn: ")
+        Log.d("abc", "AddBtn: ")
         handleFrags()
         handleAddBtn()
         handleNavBtns()
@@ -99,7 +104,8 @@ class MainActivity : AppCompatActivity() {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
-        })    }
+        })
+    }
 
     private fun handleAddBtn() {
         addBtn = findViewById<FloatingActionButton>(R.id.main_activity_add_btn)
@@ -123,6 +129,4 @@ class MainActivity : AppCompatActivity() {
         myViewPager.adapter     =   myFragmentPagerAdapter
         myViewPager.currentItem =   0
     }
-    //-----------------------------------------------
-
 }

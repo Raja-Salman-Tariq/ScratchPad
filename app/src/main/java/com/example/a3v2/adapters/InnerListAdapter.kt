@@ -20,8 +20,7 @@ import com.example.a3v2.BaseFragment
 import com.example.a3v2.db.ListItem
 import com.google.android.material.textfield.TextInputEditText
 import android.app.Activity
-
-
+import com.google.android.material.textfield.TextInputLayout
 
 
 class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : Context, var data:MutableList<ListItem>)
@@ -31,12 +30,13 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
 
     class MyViewHolder(view :   View,
                        val itemTxt  :   TextView    =   view.findViewById(R.id.rv_innerlist_item),
-                       val editTxt  :   TextInputEditText   =   view.findViewById(R.id.rv_innerlist_item_edit_text),
+                       val editTxt  :   TextView   =   view.findViewById(R.id.rv_innerlist_item_edit_text),
                        val cardView :   CardView    =   view.findViewById(R.id.rv_innerlist_item_card),
                        val strikeOut:  ImageView    =   view.findViewById(R.id.rv_innerlist_item_strikethrough),
                        val timeStamp:   TextView    =   view.findViewById(R.id.rv_innerlist_ts),
                        val okBtn    :   ImageView   =   view.findViewById(R.id.rv_innerlist_ok),
-                       val cancelBtn:   ImageView   =   view.findViewById(R.id.rv_innerlist_cancel)
+                       val cancelBtn:   ImageView   =   view.findViewById(R.id.rv_innerlist_cancel),
+                       val inpLayout:   TextInputLayout = view.findViewById(R.id.rv_innerlist_editlayout)
     )   :   RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -53,16 +53,20 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
         if (!listItem.concrete){
             holder.itemTxt.visibility=View.GONE
             holder.editTxt.visibility=View.VISIBLE
+            holder.inpLayout.visibility=View.VISIBLE
             Log.d("chngeAddBtn", "onBindViewHolder: ")
-            holder.editTxt.hint = "Enter new item here"
+            holder.editTxt.hint = "Enter new item"
             holder.editTxt.setHintTextColor(ContextCompat.getColor(ctxt,R.color.blue))
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
             holder.editTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
             holder.okBtn.visibility=View.VISIBLE
             holder.cancelBtn.visibility=View.VISIBLE
             holder.strikeOut.visibility = View.GONE
+            holder.cardView.isClickable =   false
+            holder.cardView.isFocusable =   false
+            holder.cardView.isEnabled   =   false
 
-            holder.editTxt.inputType=InputType.TYPE_CLASS_TEXT
+//            holder.editTxt.inputType=InputType.TYPE_CLASS_TEXT
             holder.editTxt.isClickable=true
             holder.editTxt.isCursorVisible=true
 
@@ -86,75 +90,107 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
                 holder.editTxt.text = null
             }
 
-            holder.cancelBtn.setOnClickListener{
-                data.removeAt(0)
-                notifyItemRemoved(0)
-                (ctxt.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(fragment?.view?.windowToken, 0)
-                holder.editTxt.text = null
+            holder.cancelBtn.setOnClickListener {
+                if (!data[0].concrete) {
+                    data.removeAt(0)
+                    notifyItemRemoved(0)
+                    (ctxt.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+                        .hideSoftInputFromWindow(fragment?.view?.windowToken, 0)
+                    holder.editTxt.text = null
 
-            }
-            return
-        }
-
-        holder.itemTxt.setText(listItem.text)
-        holder.timeStamp.text   =   listItem.formattedTimestamp()
-
-        //  frag null means this is second usage of adapter in the add button activity
-        if (fragment==null){
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-            holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
-            holder.strikeOut.visibility=View.INVISIBLE
-
-            // add or remove tapped selections in add activity
-            holder.cardView.setOnClickListener(object:View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    val item    :   ListItem    =   data[holder.adapterPosition]
-                    if (selectedItems.contains(item)){
-                        holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-                        holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
-                        selectedItems.remove(item)
-                    }
-
-                    else {
-                        selectedItems.add(item)
-                        holder.cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                ctxt,
-                                R.color.blue
-                            )
-                        )
-                        holder.itemTxt.setTextColor(
-                            ContextCompat.getColor(
-                                ctxt,
-                                R.color.deeper_white_alt
-                            )
-                        )
-                    }
                 }
+            }
 
-            })
-            return
         }
-
-        // set strikethrough
-        if (listItem.strikedOut){
-            holder.itemTxt.tag  =   ctxt.resources.getString(R.string.striked_through)
-            holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.red))
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-            holder.strikeOut.visibility=View.VISIBLE
-            val params  =   holder.strikeOut.layoutParams
-            params.width=   holder.itemTxt.width+25
-            holder.strikeOut.layoutParams=params
-            holder.strikeOut.requestLayout()
-        }else {
-            holder.itemTxt.tag  =   ctxt.resources.getString(R.string.not_striked_through)
+        else {
+            holder.itemTxt.visibility=View.VISIBLE
+            holder.editTxt.visibility=View.GONE
+            holder.inpLayout.visibility=View.GONE
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
-            holder.strikeOut.visibility=View.INVISIBLE
             holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-        }
+            holder.okBtn.visibility=View.GONE
+            holder.cancelBtn.visibility=View.GONE
+            holder.strikeOut.visibility = View.GONE
+            holder.cardView.isClickable =   true
+            holder.cardView.isFocusable =   true
+            holder.cardView.isEnabled   =   true
 
-        setListeners(holder, listItem)
+
+            holder.editTxt.isClickable=false
+            holder.editTxt.isCursorVisible=false
+           // safety ^
+            holder.itemTxt.setText(listItem.text)
+            holder.timeStamp.text = listItem.formattedTimestamp()
+
+            //  frag null means this is second usage of adapter in the add button activity
+            if (fragment == null) {
+                holder.cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        ctxt,
+                        R.color.deeper_white_alt
+                    )
+                )
+                holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
+                holder.strikeOut.visibility = View.INVISIBLE
+
+                // add or remove tapped selections in add activity
+                holder.cardView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(p0: View?) {
+                        val item: ListItem = data[holder.adapterPosition]
+                        if (selectedItems.contains(item)) {
+                            holder.cardView.setCardBackgroundColor(
+                                ContextCompat.getColor(
+                                    ctxt,
+                                    R.color.deeper_white_alt
+                                )
+                            )
+                            holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.blue))
+                            selectedItems.remove(item)
+                        } else {
+                            selectedItems.add(item)
+                            holder.cardView.setCardBackgroundColor(
+                                ContextCompat.getColor(
+                                    ctxt,
+                                    R.color.blue
+                                )
+                            )
+                            holder.itemTxt.setTextColor(
+                                ContextCompat.getColor(
+                                    ctxt,
+                                    R.color.deeper_white_alt
+                                )
+                            )
+                        }
+                    }
+
+                })
+                return
+            }
+
+            // set strikethrough
+            if (listItem.strikedOut) {
+                holder.itemTxt.tag = ctxt.resources.getString(R.string.striked_through)
+                holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.red))
+                holder.cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        ctxt,
+                        R.color.deeper_white_alt
+                    )
+                )
+                holder.strikeOut.visibility = View.VISIBLE
+                val params = holder.strikeOut.layoutParams
+                params.width = holder.itemTxt.width + 25
+                holder.strikeOut.layoutParams = params
+                holder.strikeOut.requestLayout()
+            } else {
+                holder.itemTxt.tag = ctxt.resources.getString(R.string.not_striked_through)
+                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
+                holder.strikeOut.visibility = View.INVISIBLE
+                holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
+            }
+
+            setListeners(holder, listItem)
+        }
     }
 
     override fun getItemCount() =   data.size
@@ -183,44 +219,59 @@ class InnerListAdapter(private val fragment: BaseFragment?, private val ctxt : C
 
     // handle listening for deciding whether or not to strike through items
     private fun setListeners(holder: MyViewHolder, item: ListItem){
-        if (!item.concrete)
-            return
 
-        holder.cardView.setOnClickListener(View.OnClickListener {
 
-            var wasPending = false
-            for (item   : ListItem  in  data)
-                if (!item.strikedOut)
-                    wasPending = true
+        holder.cardView.setOnClickListener {
+            if (item.concrete) {
 
-            if (holder.itemTxt.tag.equals(ctxt.resources.getString(R.string.not_striked_through))) {    // clicked to strike through
-                holder.itemTxt.tag=ctxt.resources.getString(R.string.striked_through)
-                holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.red))
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-                holder.strikeOut.visibility=View.VISIBLE
-                val params  =   holder.strikeOut.layoutParams
-                params.width=   holder.itemTxt.width+25
-                holder.strikeOut.layoutParams=params
-                item.strikedOut =   true
+                var wasPending = false
+                for (item: ListItem in data)
+                    if (!item.strikedOut)
+                        wasPending = true
+
+                if (holder.itemTxt.tag.equals(ctxt.resources.getString(R.string.not_striked_through))) {    // clicked to strike through
+                    holder.itemTxt.tag = ctxt.resources.getString(R.string.striked_through)
+                    holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.red))
+                    holder.cardView.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            ctxt,
+                            R.color.deeper_white_alt
+                        )
+                    )
+                    holder.strikeOut.visibility = View.VISIBLE
+                    val params = holder.strikeOut.layoutParams
+                    params.width = holder.itemTxt.width + 25
+                    holder.strikeOut.layoutParams = params
+                    item.strikedOut = true
+                } else {                                                                                      // clicked to unstrike through
+                    holder.itemTxt.tag = ctxt.resources.getString(R.string.not_striked_through)
+                    holder.cardView.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            ctxt,
+                            R.color.blue
+                        )
+                    )
+                    holder.strikeOut.visibility = View.INVISIBLE
+                    holder.itemTxt.setTextColor(
+                        ContextCompat.getColor(
+                            ctxt,
+                            R.color.deeper_white_alt
+                        )
+                    )
+                    item.strikedOut = false
+                }
+                fragment?.myViewModel?.updItem(item)
+
+                var listIsPending = 0
+
+                for (item: ListItem in data)
+                    if (!item.strikedOut)
+                        listIsPending++
+
+                if (wasPending != (listIsPending > 0))
+                    fragment?.myViewModel?.updListState(data[0].listId, listIsPending > 0)
             }
-            else {                                                                                      // clicked to unstrike through
-                holder.itemTxt.tag=ctxt.resources.getString(R.string.not_striked_through)
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(ctxt, R.color.blue))
-                holder.strikeOut.visibility=View.INVISIBLE
-                holder.itemTxt.setTextColor(ContextCompat.getColor(ctxt, R.color.deeper_white_alt))
-                item.strikedOut =   false
-            }
-            fragment?.myViewModel?.updItem(item)
-
-            var listIsPending   =   0
-
-            for (item   : ListItem  in  data)
-                if (!item.strikedOut)
-                    listIsPending++
-
-            if (wasPending!= (listIsPending>0))
-                fragment?.myViewModel?.updListState(data[0].listId, listIsPending>0)
-        })
+        }
     }
 
 }

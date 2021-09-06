@@ -25,7 +25,7 @@ abstract class MyDB : RoomDatabase() {
                     context.applicationContext,
                     MyDB::class.java,
                     "my_database"
-                ).addCallback(MyDbInitCallback(scope))
+                )//.addCallback(MyDbInitCallback(scope))
                     .build()
                 INSTANCE = instance
                 // return instance
