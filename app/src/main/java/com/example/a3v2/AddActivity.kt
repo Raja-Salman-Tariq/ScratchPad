@@ -172,7 +172,7 @@ class AddActivity : AppCompatActivity() {
         val titleEvLayout   =    findViewById<TextInputLayout>(R.id.name_text_input_layout)
 
         titleEvLayout.isHintEnabled=true
-        titleEvLayout.hint = "Enter your new list's title here."
+        titleEvLayout.hint = "Enter your new list's title."
 
 //        if (listId!=-1){
 //            titleEv.setText(listTitle)

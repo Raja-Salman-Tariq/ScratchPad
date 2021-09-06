@@ -13,7 +13,7 @@
         android:theme="@style/Theme.A3v2">
         <activity
             android:name=".AddActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:exported="true" />
 
 
