@@ -1,7 +1,5 @@
 # TodoListApp
 
-Rough Read Me - To Be Refined
-
 Features:
 - Nested/complex recycler view with collapsable sublists with independant scrolling.
 - Swipe to remove features, Tap to (multiple) select, Hold to select features.
