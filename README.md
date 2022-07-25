@@ -1,4 +1,4 @@
-# TodoListApp
+# ScratchPad - A note taking app.
 
 Features:
 - Nested/complex recycler view with collapsable sublists with independant scrolling.
